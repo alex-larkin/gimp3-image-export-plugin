@@ -1,2 +1,3 @@
-# gimp3 image export plugin
- A gimp 3 plugin for exporting images into different formats and resolutions
+# GIMP 3 Export Plugin
+
+A plugin for GIMP 3 to batch export images like a render engine for web development.
