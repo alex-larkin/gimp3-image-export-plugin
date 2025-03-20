@@ -1,6 +1,8 @@
 #!/usr/bin/env gimp-script-fu-interpreter-3.0
 
-(define (render-images image drawables)
+(define (render-images image drawables resolutions)
+  (process-image image resolutions)
+
   (gimp-message-set-handler 2)
   (gimp-message (car (gimp-image-get-file image)))
 )
@@ -15,9 +17,14 @@
   "2025"
   "*"
   SF-ONE-OR-MORE-DRAWABLE
+  SF-STRING "Resolutions" "1920, 1920x1080"
 )
 
 (script-fu-menu-register
   "render-images"
-  "<Image>/File/"
+  "<Image>/Batch export"
+)
+
+(define (process-image image resolutions)
+  (gimp-message resolutions)
 )
