@@ -29,6 +29,8 @@
   (let (
     (resolution-list (strbreakup resolutions ","))
   )
-    (gimp-message (list-ref resolution-list 0))
+    (for-each (lambda (resolution)
+      (gimp-message resolution)
+    ) resolution-list)
   )
 )
