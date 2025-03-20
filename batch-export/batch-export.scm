@@ -1,10 +1,18 @@
 #!/usr/bin/env gimp-script-fu-interpreter-3.0
 
 (define (render-images image drawables resolutions)
-  (process-image image resolutions)
-
-  (gimp-message-set-handler 2)
-  (gimp-message (car (gimp-image-get-file image)))
+  (let (
+    (open-images (car (gimp-get-images)))
+  )
+    (let loop ((i 0))
+      (if (< i (vector-length open-images))
+        (begin
+          (process-image (vector-ref open-images i) resolutions)
+          (loop (+ i 1))
+        )
+      )
+    )
+  )
 )
 
 
@@ -31,6 +39,7 @@
   )
     (for-each (lambda (resolution)
       (gimp-message resolution)
+      (gimp-message (car (gimp-image-get-file image)))
     ) resolution-list)
   )
 )
