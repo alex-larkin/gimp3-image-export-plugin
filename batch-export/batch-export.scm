@@ -26,5 +26,9 @@
 )
 
 (define (process-image image resolutions)
-  (gimp-message resolutions)
+  (let (
+    (resolution-list (strbreakup resolutions ","))
+  )
+    (gimp-message (list-ref resolution-list 0))
+  )
 )
