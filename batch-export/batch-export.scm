@@ -7,7 +7,9 @@
     (let loop ((i 0))
       (if (< i (vector-length open-images))
         (begin
-          (process-image (vector-ref open-images i) resolutions)
+          (if (not (equal? (car (gimp-image-get-file (vector-ref open-images i))) ""))
+            (process-image (vector-ref open-images i) resolutions)
+          )
           (loop (+ i 1))
         )
       )
