@@ -57,11 +57,10 @@
 )
 
 (define (string-join list separator)
-  (apply
-    string-append 
-    (cons (car list) (map (
-      lambda (element) (string-append separator element)
-    ) (cdr list)))
+  (let (
+    (mergeCallback (lambda (element) (string-append separator element)))
+  )
+    (apply string-append (cons (car list) (map mergeCallback (cdr list))))
   )
 )
 
