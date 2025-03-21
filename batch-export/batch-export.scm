@@ -39,11 +39,12 @@
   (let (
     (resolution-list (strbreakup resolutions ","))
     (file-path-parts (reverse (cdr (reverse (strbreakup (car (gimp-image-get-file image)) ".")))))
+    (name (remove-file-extension image))
   )
     (for-each (lambda (resolution)
 
       (gimp-message resolution)
-      (gimp-message (car (gimp-image-get-file image)))
+      (gimp-message name)
       
     ) resolution-list)
   )
@@ -60,4 +61,12 @@
 
 (define (export-image image name quality)
   (file-heif-av1-export RUN-NONINTERACTIVE image (string-append name "_" (number->string quality) ".avif") 0 quality FALSE 8 "rgb" "fast" FALSE FALSE)
+)
+
+(define (remove-file-extension image)
+  (let (
+    (file-path-parts (reverse (cdr (reverse (strbreakup (car (gimp-image-get-file image)) ".")))))
+  )
+    (string-join file-path-parts ".")
+  )
 )
