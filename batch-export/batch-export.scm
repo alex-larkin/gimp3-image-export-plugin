@@ -50,10 +50,25 @@
   (export-image image 
     (cond 
       ((= (length file-path-parts) 2) (list-ref file-path-parts 0))
-      ((= (length file-path-parts) 3) (string-append (list-ref file-path-parts 0) "." (list-ref file-path-parts 1)))
-      ((= (length file-path-parts) 4) (string-append (list-ref file-path-parts 0) "." (list-ref file-path-parts 1) "." (list-ref file-path-parts 2)))
+      ((> (length file-path-parts) 2) (string-join file-path-parts "."))
     )
     80
+  )
+)
+
+(define (string-join list delimiter)
+  (let loop ((remaining list)
+             (result ""))
+    (cond
+      ((null? remaining) result)
+      ((null? (cdr remaining))
+       (string-append result (car remaining)))
+      (else
+       (loop (cdr remaining)
+             (string-append result (car remaining) delimiter)
+        )
+      )
+    )
   )
 )
 
