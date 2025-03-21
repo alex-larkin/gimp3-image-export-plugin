@@ -56,19 +56,12 @@
   )
 )
 
-(define (string-join list delimiter)
-  (let loop ((remaining list)
-             (result ""))
-    (cond
-      ((null? remaining) result)
-      ((null? (cdr remaining))
-       (string-append result (car remaining)))
-      (else
-       (loop (cdr remaining)
-             (string-append result (car remaining) delimiter)
-        )
-      )
-    )
+(define (string-join list separator)
+  (apply
+    string-append 
+    (cons (car list) (map (
+      lambda (element) (string-append separator element)
+    ) (cdr list)))
   )
 )
 
