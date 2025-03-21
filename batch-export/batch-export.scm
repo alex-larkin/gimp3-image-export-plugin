@@ -38,6 +38,7 @@
 (define (process-image image resolutions)
   (let (
     (resolution-list (strbreakup resolutions ","))
+    (file-path (car (gimp-image-get-file image)))
   )
     (for-each (lambda (resolution)
 
@@ -46,7 +47,7 @@
       
     ) resolution-list)
   )
-  (export-image image "test" 80)
+  (export-image image (car (strbreakup file-path ".")) 80)
 )
 
 (define (export-image image name quality)
