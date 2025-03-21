@@ -67,9 +67,10 @@
 )
 
 (define (remove-file-extension image)
-  (let (
-    (file-path-parts (strbreakup (car (gimp-image-get-file image)) "."))
+  (let* (
+    (file-path (car (gimp-image-get-file image)))
+    (path-parts (strbreakup file-path "."))
   )
-    (string-join (remove-last-item file-path-parts) ".")
+    (string-join (remove-last-item path-parts) ".")
   )
 )
