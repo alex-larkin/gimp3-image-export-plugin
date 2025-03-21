@@ -65,5 +65,5 @@
 )
 
 (define (export-image image name quality)
-  (file-heif-av1-export RUN-NONINTERACTIVE image (string-append name "_new.avif") 0 quality FALSE 8 "rgb" "fast" FALSE FALSE)
+  (file-heif-av1-export RUN-NONINTERACTIVE image (string-append name (number->string quality) ".avif") 0 quality FALSE 8 "rgb" "fast" FALSE FALSE)
 )
