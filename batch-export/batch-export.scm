@@ -46,11 +46,9 @@
       
     ) resolution-list)
   )
-  (export-image image)
+  (export-image image "test" 80)
 )
 
-(define (export-image image)
-  (let ((quality 80))
-    (file-heif-av1-export RUN-NONINTERACTIVE image "test.avif" 0 quality FALSE 8 "rgb" "fast" FALSE FALSE)
-  )
+(define (export-image image name quality)
+  (file-heif-av1-export RUN-NONINTERACTIVE image (string-append name ".avif") 0 quality FALSE 8 "rgb" "fast" FALSE FALSE)
 )
