@@ -38,7 +38,6 @@
 (define (process-image image resolutions)
   (let (
     (resolution-list (strbreakup resolutions ","))
-    (quality 80)
   )
     (for-each (lambda (resolution)
 
@@ -47,5 +46,11 @@
       
     ) resolution-list)
   )
-  (file-heif-av1-export RUN-NONINTERACTIVE image "test.avif" 0 quality FALSE 8 "rgb" "fast" FALSE FALSE)
+  (export-image image)
+)
+
+(define (export-image image)
+  (let ((quality 80))
+    (file-heif-av1-export RUN-NONINTERACTIVE image "test.avif" 0 quality FALSE 8 "rgb" "fast" FALSE FALSE)
+  )
 )
