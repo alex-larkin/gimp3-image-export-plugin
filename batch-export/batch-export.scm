@@ -64,8 +64,8 @@
 
 (define (remove-file-extension image)
   (let (
-    (file-path-parts (reverse (cdr (reverse (strbreakup (car (gimp-image-get-file image)) ".")))))
+    (file-path-parts (strbreakup (car (gimp-image-get-file image)) "."))
   )
-    (string-join file-path-parts ".")
+    (string-join (reverse (cdr (reverse file-path-parts))) ".")
   )
 )
