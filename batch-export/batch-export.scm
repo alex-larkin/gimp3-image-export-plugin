@@ -38,7 +38,7 @@
 (define (process-image image resolutions)
   (let (
     (resolution-list (strbreakup resolutions ","))
-    (file-path (car (gimp-image-get-file image)))
+    (file-path-parts (reverse (cdr (reverse (strbreakup (car (gimp-image-get-file image)) ".")))))
   )
     (for-each (lambda (resolution)
 
@@ -47,7 +47,14 @@
       
     ) resolution-list)
   )
-  (export-image image (car (strbreakup file-path ".")) 80)
+  (export-image image 
+    (cond 
+      ((= (length file-path-parts) 2) (list-ref file-path-parts 0))
+      ((= (length file-path-parts) 3) (string-append (list-ref file-path-parts 0) "." (list-ref file-path-parts 1)))
+      ((= (length file-path-parts) 4) (string-append (list-ref file-path-parts 0) "." (list-ref file-path-parts 1) "." (list-ref file-path-parts 2)))
+    )
+    80
+  )
 )
 
 (define (export-image image name quality)
