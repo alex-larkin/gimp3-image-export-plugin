@@ -58,6 +58,10 @@
   )
 )
 
+(define (remove-last-item list)
+  (reverse (cdr (reverse list)))
+)
+
 (define (export-image image name quality)
   (file-heif-av1-export RUN-NONINTERACTIVE image (string-append name "_" (number->string quality) ".avif") 0 quality FALSE 8 "rgb" "fast" FALSE FALSE)
 )
@@ -66,6 +70,6 @@
   (let (
     (file-path-parts (strbreakup (car (gimp-image-get-file image)) "."))
   )
-    (string-join (reverse (cdr (reverse file-path-parts))) ".")
+    (string-join (remove-last-item file-path-parts) ".")
   )
 )
