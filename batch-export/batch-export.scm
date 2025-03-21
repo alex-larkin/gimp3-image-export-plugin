@@ -47,13 +47,7 @@
       
     ) resolution-list)
   )
-  (export-image image 
-    (cond 
-      ((= (length file-path-parts) 2) (list-ref file-path-parts 0))
-      ((> (length file-path-parts) 2) (string-join file-path-parts "."))
-    )
-    80
-  )
+  (export-image image (string-join file-path-parts ".") 80)
 )
 
 (define (string-join list separator)
