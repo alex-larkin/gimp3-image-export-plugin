@@ -40,8 +40,11 @@
     (resolution-list (strbreakup resolutions ","))
   )
     (for-each (lambda (resolution)
+    
       (gimp-message resolution)
       (gimp-message (car (gimp-image-get-file image)))
+      
     ) resolution-list)
   )
+  (file-heif-av1-export RUN-NONINTERACTIVE image "test.avif" 0 50 FALSE 8 "rgb" "fast" FALSE FALSE)
 )
