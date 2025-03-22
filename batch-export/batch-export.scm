@@ -45,6 +45,7 @@
         (new-width (string->number resolution))
         (new-height (* (/ new-width (car (gimp-image-get-width image)))(car (gimp-image-get-height image))))
       )
+        (gimp-image-scale image new-width new-height)
         (gimp-message (number->string new-height))
         (gimp-message name)
       )
