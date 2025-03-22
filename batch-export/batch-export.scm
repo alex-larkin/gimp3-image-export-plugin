@@ -41,10 +41,13 @@
     (name (remove-file-extension image))
   )
     (for-each (lambda (resolution)
-
-      (gimp-message resolution)
-      (gimp-message name)
-      
+      (let* (
+        (new-width (string->number resolution))
+        (new-height (* (/ new-width (car (gimp-image-get-width image)))(car (gimp-image-get-height image))))
+      )
+        (gimp-message (number->string new-height))
+        (gimp-message name)
+      )
     ) resolution-list)
   )
   (export-image image name 80)
