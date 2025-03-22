@@ -49,10 +49,10 @@
         (gimp-image-scale image-copy new-width new-height)
         (gimp-message (number->string new-height))
         (gimp-message name)
+        (export-image image-copy name 80)
       )
     ) resolution-list)
   )
-  (export-image image name 80)
 )
 
 (define (string-join list separator)
