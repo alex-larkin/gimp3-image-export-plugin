@@ -49,7 +49,7 @@
         (gimp-image-scale image-copy new-width new-height)
         (gimp-message (number->string new-height))
         (gimp-message name)
-        (export-image image-copy name 80)
+        (export-image image-copy (string-append name (number->string new-width) "x" (number->string new-height)) 80)
       )
     ) resolution-list)
   )
