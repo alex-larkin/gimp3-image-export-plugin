@@ -44,8 +44,9 @@
       (let* (
         (new-width (string->number resolution))
         (new-height (* (/ new-width (car (gimp-image-get-width image)))(car (gimp-image-get-height image))))
+        (image-copy (car (gimp-image-duplicate image)))
       )
-        (gimp-image-scale image new-width new-height)
+        (gimp-image-scale image-copy new-width new-height)
         (gimp-message (number->string new-height))
         (gimp-message name)
       )
