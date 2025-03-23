@@ -56,20 +56,20 @@
   )
 )
 
-(define (string-join list separator)
-  (let (
-    (mergeCallback (lambda (element) (string-append separator element)))
-  )
-    (apply string-append (cons (car list) (map mergeCallback (cdr list))))
-  )
+(define (export-image image name quality)
+  (file-heif-av1-export RUN-NONINTERACTIVE image (string-append name "_" (number->string quality) ".avif") 0 quality FALSE 8 "rgb" "fast" FALSE FALSE)
 )
 
 (define (remove-last-item list)
   (reverse (cdr (reverse list)))
 )
 
-(define (export-image image name quality)
-  (file-heif-av1-export RUN-NONINTERACTIVE image (string-append name "_" (number->string quality) ".avif") 0 quality FALSE 8 "rgb" "fast" FALSE FALSE)
+(define (string-join list separator)
+  (let (
+    (mergeCallback (lambda (element) (string-append separator element)))
+  )
+    (apply string-append (cons (car list) (map mergeCallback (cdr list))))
+  )
 )
 
 (define (remove-file-extension image)
