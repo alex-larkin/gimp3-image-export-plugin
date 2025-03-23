@@ -17,6 +17,9 @@
           )
         )
       )
+      (else
+        (process-image image resolutions)
+      )
     )
   )
 )
