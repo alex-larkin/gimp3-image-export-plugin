@@ -59,10 +59,30 @@
         (new-width (string->number (car resolution-values)))
         (new-height (string->number (cadr resolution-values)))
       )
-        (gimp-image-scale image-copy new-width new-height)
-        (gimp-message (number->string new-height))
+        ;; (gimp-image-scale image-copy new-width new-height)
+
+        (cond
+          ((= (length resolution-values) 1)
+            
+            (let (
+              (new-height (* (/ new-width image-width) image-height))
+            )
+              (gimp-message (number->string new-height))
+            )
+          )
+          ((= (length resolution-values) 2)
+            (let* (
+              (new-height (string->number (cadr resolution-values)))
+
+            )
+              (gimp-message (number->string new-height))
+            )
+          )
+        )
+
         (gimp-message name)
         (export-image image-copy (string-append name "_" (number->string new-width) "x" (number->string new-height)) 80)
+        
         (gimp-image-delete image-copy)
       )
     ) resolution-list)
