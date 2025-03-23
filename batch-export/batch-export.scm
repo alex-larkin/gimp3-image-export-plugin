@@ -46,12 +46,14 @@
 (define (process-image image resolutions)
   (let (
     (resolution-list (strbreakup resolutions ","))
+    (image-width (car (gimp-image-get-width image)))
+    (image-height (car (gimp-image-get-height image)))
     (name (remove-file-extension image))
   )
     (for-each (lambda (resolution)
       (let* (
         (new-width (string->number resolution))
-        (new-height (* (/ new-width (car (gimp-image-get-width image)))(car (gimp-image-get-height image))))
+        (new-height (* (/ new-width image-width) image-height))
         (image-copy (car (gimp-image-duplicate image)))
       )
         (gimp-image-scale image-copy new-width new-height)
