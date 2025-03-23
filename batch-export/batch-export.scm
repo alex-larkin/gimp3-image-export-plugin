@@ -1,16 +1,20 @@
 #!/usr/bin/env gimp-script-fu-interpreter-3.0
 
-(define (render-images image drawables resolutions)
+(define (render-images image drawables resolutions render-all-open-images)
   (let (
     (open-images (car (gimp-get-images)))
   )
-    (let loop ((i 0))
-      (if (< i (vector-length open-images))
-        (begin
-          (if (not (equal? (car (gimp-image-get-file (vector-ref open-images i))) ""))
-            (process-image (vector-ref open-images i) resolutions)
+    (cond 
+      ((= render-all-open-images 1)
+        (let loop ((i 0))
+          (if (< i (vector-length open-images))
+            (begin
+              (if (not (equal? (car (gimp-image-get-file (vector-ref open-images i))) ""))
+                (process-image (vector-ref open-images i) resolutions)
+              )
+              (loop (+ i 1))
+            )
           )
-          (loop (+ i 1))
         )
       )
     )
@@ -28,6 +32,7 @@
   "*"
   SF-ONE-OR-MORE-DRAWABLE
   SF-STRING "Resolutions" "1920, 1920x1080"
+  SF-TOGGLE "Render all open images"    1
 )
 
 (script-fu-menu-register
