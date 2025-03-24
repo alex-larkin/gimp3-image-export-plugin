@@ -80,14 +80,14 @@
                   (cond
                     ((> original-ratio new-ratio)
                       (let (
-                        (crop-width (* (/ image-height new-height) new-width))
+                        (crop-width (* image-height new-ratio))
                       )
                         (gimp-image-crop image-copy crop-width image-height 0 0)
                       )
                     )
                     (else 
                       (let (
-                        (crop-height (* (/ image-width new-width) new-height))
+                        (crop-height (/ image-width new-ratio))
                       )
                         (gimp-image-crop image-copy image-width crop-height 0 0)
                       )
