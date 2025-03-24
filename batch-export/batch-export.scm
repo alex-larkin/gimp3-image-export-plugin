@@ -52,14 +52,10 @@
   )
     (for-each (lambda (resolution)
       (let* (
-        ;; (new-width (string->number resolution))
-        ;; (new-height (* (/ new-width image-width) image-height))
         (image-copy (car (gimp-image-duplicate image)))
         (resolution-values (strbreakup resolution "x"))
         (new-width (string->number (car resolution-values)))
-        (new-height (string->number (cadr resolution-values)))
       )
-        ;; (gimp-image-scale image-copy new-width new-height)
 
         (cond
           ((= (length resolution-values) 1)
