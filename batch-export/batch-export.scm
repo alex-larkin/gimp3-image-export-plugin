@@ -10,7 +10,7 @@
           (if (< i (vector-length open-images))
             (begin
               (if (not (equal? (car (gimp-image-get-file (vector-ref open-images i))) ""))
-                (process-image (vector-ref open-images i) resolutions)
+                (process-image (vector-ref open-images i) resolutions is-cropped)
               )
               (loop (+ i 1))
             )
@@ -18,7 +18,7 @@
         )
       )
       (else
-        (process-image image resolutions)
+        (process-image image resolutions is-cropped)
       )
     )
   )
@@ -44,7 +44,7 @@
   "<Image>/Batch export"
 )
 
-(define (process-image image resolutions)
+(define (process-image image resolutions is-cropped)
   (let (
     (resolution-list (strbreakup resolutions ","))
     (image-width (car (gimp-image-get-width image)))
@@ -73,6 +73,9 @@
               (new-height (string->number (cadr resolution-values)))
 
             )
+              (if (= is-cropped 1) 
+                (gimp-message "crop image")
+              )
               (gimp-message (number->string new-height))
               (gimp-image-scale image-copy new-width new-height)
             )
