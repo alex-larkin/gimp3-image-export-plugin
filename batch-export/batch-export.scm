@@ -74,6 +74,7 @@
             )
               (if (= is-cropped 1) 
                 (gimp-message "crop image")
+                (gimp-image-crop image new-width new-height 0 0)
               )
               (gimp-image-scale image-copy new-width new-height)
             )
