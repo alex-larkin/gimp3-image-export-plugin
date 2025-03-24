@@ -1,6 +1,6 @@
 #!/usr/bin/env gimp-script-fu-interpreter-3.0
 
-(define (render-images image drawables resolutions all-images)
+(define (render-images image drawables resolutions all-images is-cropped)
   (let (
     (open-images (car (gimp-get-images)))
   )
@@ -36,6 +36,7 @@
   SF-ONE-OR-MORE-DRAWABLE
   SF-STRING "Resolutions" "1920, 1920x1080"
   SF-TOGGLE "Render all open images"    1
+  SF-TOGGLE "Crop images to new aspect ratio"   1
 )
 
 (script-fu-menu-register
