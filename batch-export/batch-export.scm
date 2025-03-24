@@ -64,7 +64,6 @@
             (let (
               (new-height (* (/ new-width image-width) image-height))
             )
-              (gimp-message (number->string new-height))
               (gimp-image-scale image-copy new-width new-height)
             )
           )
@@ -76,7 +75,6 @@
               (if (= is-cropped 1) 
                 (gimp-message "crop image")
               )
-              (gimp-message (number->string new-height))
               (gimp-image-scale image-copy new-width new-height)
             )
           )
