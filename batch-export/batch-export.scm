@@ -1,11 +1,11 @@
 #!/usr/bin/env gimp-script-fu-interpreter-3.0
 
-(define (render-images image drawables resolutions render-all-open-images)
+(define (render-images image drawables resolutions all-images)
   (let (
     (open-images (car (gimp-get-images)))
   )
     (cond 
-      ((= render-all-open-images 1)
+      ((is-true all-images)
         (let loop ((i 0))
           (if (< i (vector-length open-images))
             (begin
