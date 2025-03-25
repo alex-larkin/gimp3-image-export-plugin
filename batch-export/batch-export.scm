@@ -72,7 +72,7 @@
               (new-height (string->number (cadr resolution-values)))
 
             )
-              (if (= is-cropped 1) 
+              (if (is-true is-cropped) 
                 (crop-image image-copy new-width new-height image-width image-height)
               )
               (gimp-image-scale image-copy new-width new-height)
@@ -127,6 +127,10 @@
   )
     (apply string-append (cons (car list) (map mergeCallback (cdr list))))
   )
+)
+
+(define (is-true value)
+  (not (= value 0))
 )
 
 (define (remove-file-extension image)
