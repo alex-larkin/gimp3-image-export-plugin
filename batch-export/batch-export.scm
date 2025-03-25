@@ -73,28 +73,7 @@
 
             )
               (if (= is-cropped 1) 
-                (let (
-                  (original-ratio (/ image-width image-height))
-                  (new-ratio (/ new-width new-height))
-                )
-                  (cond
-                    ((> original-ratio new-ratio)
-                      (let (
-                        (crop-width (* image-height new-ratio))
-                      )
-                        (gimp-image-crop image-copy crop-width image-height 0 0)
-                      )
-                    )
-                    (else 
-                      (let (
-                        (crop-height (/ image-width new-ratio))
-                      )
-                        (gimp-image-crop image-copy image-width crop-height 0 0)
-                      )
-                    )
-                  )
-                  (gimp-message "crop image")
-                )
+                (crop-image image-copy new-width new-height image-width image-height)
               )
               (gimp-image-scale image-copy new-width new-height)
             )
@@ -107,6 +86,30 @@
         (gimp-image-delete image-copy)
       )
     ) resolution-list)
+  )
+)
+
+(define (crop-image image new-width new-height image-width image-height)
+  (let (
+    (original-ratio (/ image-width image-height))
+    (new-ratio (/ new-width new-height))
+  )
+    (cond
+      ((> original-ratio new-ratio)
+        (let (
+          (crop-width (* image-height new-ratio))
+        )
+          (gimp-image-crop image-copy crop-width image-height 0 0)
+        )
+      )
+      (else 
+        (let (
+          (crop-height (/ image-width new-ratio))
+        )
+          (gimp-image-crop image-copy image-width crop-height 0 0)
+        )
+      )
+    )
   )
 )
 
