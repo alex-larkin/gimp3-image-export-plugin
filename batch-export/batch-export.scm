@@ -89,27 +89,18 @@
   )
 )
 
-(define (crop-image image new-width new-height image-width image-height)
-  (let (
-    (original-ratio (/ image-width image-height))
-    (new-ratio (/ new-width new-height))
+(define (crop-image image width height old-width old-height)
+  (let* (
+    (scale-x (/ old-width width))
+    (scale-y (/ old-height height))
+    (scale (cond
+      ((< scale-x scale-y) scale-x)
+      (else scale-y)
+    ))
+    (crop-width (* width scale))
+    (crop-height (* height scale))
   )
-    (cond
-      ((> original-ratio new-ratio)
-        (let (
-          (crop-width (* image-height new-ratio))
-        )
-          (gimp-image-crop image-copy crop-width image-height 0 0)
-        )
-      )
-      (else 
-        (let (
-          (crop-height (/ image-width new-ratio))
-        )
-          (gimp-image-crop image-copy image-width crop-height 0 0)
-        )
-      )
-    )
+    (gimp-image-crop image crop-width crop-height (* (- old-width crop-width) 0.5) (* (- old-height crop-height) 0.5))
   )
 )
 
