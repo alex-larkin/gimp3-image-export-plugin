@@ -82,12 +82,13 @@
   )
 )
 
-
 (define (export-image image name)
-  (export-avif image name 80)
-    (export-webp image name 80)
-    (export-png image name 80)
-    (export-jpeg image name 80)
+  (let ((quality 80))
+    (export-jpeg image name quality)
+    (export-png image name quality)
+    (export-webp image name quality)
+    (export-avif image name quality)
+  )
 )
 
 (define (export-jpeg image name quality)
