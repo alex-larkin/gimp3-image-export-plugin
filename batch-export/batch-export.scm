@@ -105,7 +105,19 @@
 )
 
 (define (export-image image name quality)
-  (file-heif-av1-export RUN-NONINTERACTIVE image (string-append name "_" (number->string quality) ".avif") 0 quality FALSE 8 "rgb" "fast" FALSE FALSE)
+  (file-heif-av1-export
+    #:run-mode RUN-NONINTERACTIVE
+    #:image image
+    #:file (string-append name ".avif")
+    #:options -1
+    #:quality quality
+    #:lossless FALSE
+    #:save-bit-depth 8
+    #:pixel-format "rgb"
+    #:encoder-speed "fast"
+    #:include-exif FALSE
+    #:include-xmp FALSE
+    )
 )
 
 (define (remove-last-item list)
