@@ -48,7 +48,7 @@
     (resolution-list (strbreakup resolutions ","))
     (image-width (car (gimp-image-get-width image)))
     (image-height (car (gimp-image-get-height image)))
-    (name (remove-file-extension image))
+    (file-name (remove-file-extension image))
   )
     (for-each (lambda (resolution)
       (let* (
@@ -56,7 +56,6 @@
         (resolution-values (strbreakup resolution "x"))
         (new-width (string->number (car resolution-values)))
       )
-
         (cond
           ((= (length resolution-values) 1)
             
@@ -76,10 +75,7 @@
             )
           )
         )
-
-        (gimp-message name)
-        (export-image image-copy (string-append name "-" (number->string new-width)) 80)
-        
+        (export-image image-copy (string-append file-name "-" (number->string new-width)) 80)
         (gimp-image-delete image-copy)
       )
     ) resolution-list)
