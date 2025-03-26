@@ -82,21 +82,6 @@
   )
 )
 
-(define (crop-image image width height old-width old-height)
-  (let* (
-    (scale-x (/ old-width width))
-    (scale-y (/ old-height height))
-    (scale (cond
-      ((< scale-x scale-y) scale-x)
-      (else scale-y)
-    ))
-    (crop-width (* width scale))
-    (crop-height (* height scale))
-  )
-    (gimp-image-crop image crop-width crop-height (* (- old-width crop-width) 0.5) (* (- old-height crop-height) 0.5))
-  )
-)
-
 (define (export-image image name quality)
   (file-heif-av1-export
     #:run-mode RUN-NONINTERACTIVE
@@ -113,6 +98,21 @@
     )
 )
 
+(define (crop-image image width height old-width old-height)
+  (let* (
+    (scale-x (/ old-width width))
+    (scale-y (/ old-height height))
+    (scale (cond
+      ((< scale-x scale-y) scale-x)
+      (else scale-y)
+    ))
+    (crop-width (* width scale))
+    (crop-height (* height scale))
+  )
+    (gimp-image-crop image crop-width crop-height (* (- old-width crop-width) 0.5) (* (- old-height crop-height) 0.5))
+  )
+)
+
 (define (remove-last-item list)
   (reverse (cdr (reverse list)))
 )
@@ -125,10 +125,6 @@
   )
 )
 
-(define (is-true value)
-  (not (= value 0))
-)
-
 (define (remove-file-extension image)
   (let* (
     (file-path (car (gimp-image-get-file image)))
@@ -136,4 +132,8 @@
   )
     (string-join (remove-last-item path-parts) ".")
   )
+)
+
+(define (is-true value)
+  (not (= value 0))
 )
