@@ -75,14 +75,19 @@
             )
           )
         )
-        (export-image image-copy (string-append file-name "-" (number->string new-width)) 80)
+        (export-image image-copy (string-append file-name "-" (number->string new-width)))
         (gimp-image-delete image-copy)
       )
     ) resolution-list)
   )
 )
 
-(define (export-image image name quality)
+
+(define (export-image image name)
+  (export-avif image name 80)
+)
+
+(define (export-avif image name quality)
   (file-heif-av1-export
     #:run-mode RUN-NONINTERACTIVE
     #:image image
