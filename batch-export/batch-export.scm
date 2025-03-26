@@ -34,7 +34,7 @@
   "2025"
   "*"
   SF-ONE-OR-MORE-DRAWABLE
-  SF-STRING "Resolutions" "1920, 1920x1080"
+  SF-STRING "Resolutions"               "1920, 1920x1080"
   SF-TOGGLE "Render all open images"    1
 )
 
