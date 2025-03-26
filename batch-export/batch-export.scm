@@ -86,6 +86,31 @@
 (define (export-image image name)
   (export-avif image name 80)
     (export-webp image name 80)
+    (export-png image name 80)
+)
+
+(define (export-png image name quality)
+  (file-png-export
+    #:run-mode RUN-NONINTERACTIVE
+    #:image image
+    #:file (string-append name ".png")
+    #:options -1
+    #:interlaced FALSE
+    #:compression 9
+    #:bkgd TRUE
+    #:offs FALSE
+    #:phys TRUE
+    #:time TRUE
+    #:save-transparent TRUE
+    #:optimize-palette FALSE
+    #:format "auto"
+    #:include-exif FALSE
+    #:include-iptc FALSE
+    #:include-xmp FALSE
+    #:include-color-profile FALSE
+    #:include-thumbnail FALSE
+    #:include-comment FALSE
+    )
 )
 
 (define (export-webp image name quality)
