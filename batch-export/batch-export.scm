@@ -87,6 +87,31 @@
   (export-avif image name 80)
     (export-webp image name 80)
     (export-png image name 80)
+    (export-jpeg image name 80)
+)
+
+(define (export-jpeg image name quality)
+  (file-jpeg-export
+    #:run-mode RUN-NONINTERACTIVE
+    #:image image
+    #:file (string-append name ".jpg")
+    #:options -1
+    #:quality (* 0.01 quality)
+    #:smoothing 0.0
+    #:optimize TRUE
+    #:progressive FALSE
+    #:cmyk FALSE
+    #:sub-sampling "sub-sampling-1x1"
+    #:baseline TRUE
+    #:restart 0
+    #:dct "integer"
+    #:include-exif FALSE
+    #:include-iptc FALSE
+    #:include-xmp FALSE
+    #:include-color-profile FALSE
+    #:include-thumbnail FALSE
+    #:include-comment FALSE
+    )
 )
 
 (define (export-png image name quality)
