@@ -1,6 +1,6 @@
 #!/usr/bin/env gimp-script-fu-interpreter-3.0
 
-(define (render-images image drawables resolutions all-images is-cropped)
+(define (render-images image drawables resolutions all-images)
   (let (
     (open-images (car (gimp-get-images)))
   )
@@ -10,7 +10,7 @@
           (if (< i (vector-length open-images))
             (begin
               (if (not (equal? (car (gimp-image-get-file (vector-ref open-images i))) ""))
-                (process-image (vector-ref open-images i) resolutions is-cropped)
+                (process-image (vector-ref open-images i) resolutions)
               )
               (loop (+ i 1))
             )
@@ -18,7 +18,7 @@
         )
       )
       (else
-        (process-image image resolutions is-cropped)
+        (process-image image resolutions)
       )
     )
   )
@@ -36,7 +36,6 @@
   SF-ONE-OR-MORE-DRAWABLE
   SF-STRING "Resolutions" "1920, 1920x1080"
   SF-TOGGLE "Render all open images"    1
-  SF-TOGGLE "Crop images to new aspect ratio"   1
 )
 
 (script-fu-menu-register
@@ -44,7 +43,7 @@
   "<Image>/Batch export"
 )
 
-(define (process-image image resolutions is-cropped)
+(define (process-image image resolutions)
   (let (
     (resolution-list (strbreakup resolutions ","))
     (image-width (car (gimp-image-get-width image)))
@@ -72,9 +71,7 @@
               (new-height (string->number (cadr resolution-values)))
 
             )
-              (if (is-true is-cropped) 
-                (crop-image image-copy new-width new-height image-width image-height)
-              )
+              (crop-image image-copy new-width new-height image-width image-height)
               (gimp-image-scale image-copy new-width new-height)
             )
           )
