@@ -85,6 +85,32 @@
 
 (define (export-image image name)
   (export-avif image name 80)
+    (export-webp image name 80)
+)
+
+(define (export-webp image name quality)
+  (file-webp-export
+    #:run-mode RUN-NONINTERACTIVE
+    #:image image
+    #:file (string-append name ".webp")
+    #:options -1
+    #:preset "default"
+    #:lossless FALSE
+    #:quality quality
+    #:alpha-quality 100
+    #:use-sharp-yuv FALSE
+    #:animation-loop TRUE
+    #:minimize-size TRUE
+    #:keyframe-distance 50
+    #:default-delay 200
+    #:force-delay FALSE
+    #:animation FALSE
+    #:include-exif FALSE
+    #:include-iptc FALSE
+    #:include-xmp FALSE
+    #:include-color-profile FALSE
+    #:include-thumbnail FALSE
+    )
 )
 
 (define (export-avif image name quality)
