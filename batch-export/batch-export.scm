@@ -28,7 +28,7 @@
 (script-fu-register-filter
   "render-images"
   "Render Images"
-  "Render Images for given resolutions into different formats"
+  "Render Images for given resolutions as JPEG, PNG, WebP, AVIF"
   "Max Bronner"
   "Under GNU GENERAL PUBLIC LICENSE Version 3"
   "2025"
@@ -81,6 +81,7 @@
     ) resolution-list)
   )
 )
+
 
 (define (export-image image name)
   (let ((quality 80))
