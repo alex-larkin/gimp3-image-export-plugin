@@ -75,7 +75,7 @@
             )
           )
         )
-        (export-image image-copy (string-append file-name "-" (number->string new-width)))
+        (export-image image-copy (string-append file-name "_" (number->string new-width)))
         (gimp-image-delete image-copy)
       )
     ) resolution-list)
@@ -113,7 +113,7 @@
     #:include-color-profile FALSE
     #:include-thumbnail FALSE
     #:include-comment FALSE
-    )
+  )
 )
 
 (define (export-png image name quality)
@@ -137,7 +137,7 @@
     #:include-color-profile FALSE
     #:include-thumbnail FALSE
     #:include-comment FALSE
-    )
+  )
 )
 
 (define (export-webp image name quality)
@@ -162,7 +162,7 @@
     #:include-xmp FALSE
     #:include-color-profile FALSE
     #:include-thumbnail FALSE
-    )
+  )
 )
 
 (define (export-avif image name quality)
@@ -178,7 +178,7 @@
     #:encoder-speed "fast"
     #:include-exif FALSE
     #:include-xmp FALSE
-    )
+  )
 )
 
 (define (crop-image image width height old-width old-height)
