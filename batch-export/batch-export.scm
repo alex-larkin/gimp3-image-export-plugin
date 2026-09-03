@@ -6,6 +6,8 @@
 ;;     with the original "export beside the source image" behavior kept as a
 ;;     fallback when the chooser is left blank
 ;;   - Added a JPEG/WebP/AVIF quality slider (previously hardcoded at 80)
+;;   - A blank Resolutions field (or a blank entry within a comma-separated
+;;     list) exports at the image's current size instead of erroring out
 ;;   - All of the above persist across GIMP restarts via GimpProcedureConfig --
 ;;     see the "ARGUMENT ORDER" note above the registration block below
 ;; Original script by Max Bronner: https://github.com/max-bronner/gimp3-image-export-plugin
@@ -209,27 +211,33 @@
                 ))
   )
     (for-each (lambda (resolution)
-      (let* (
+      (let (
         (image-copy (car (gimp-image-duplicate image)))
-        (resolution-values (strbreakup resolution "x"))
-        (new-width (string->number (car resolution-values)))
       )
-        (cond
-          ((= (length resolution-values) 1)
-
-            (let (
-              (new-height (* (/ new-width image-width) image-height))
-            )
-              (gimp-image-scale image-copy new-width new-height)
-            )
+        ;; An empty resolution means "keep this image's current size" --
+        ;; skip scaling/cropping entirely, and don't tag the filename with
+        ;; a resolution suffix, since there's nothing to distinguish.
+        (if (not (string=? resolution ""))
+          (let* (
+            (resolution-values (strbreakup resolution "x"))
+            (new-width (string->number (car resolution-values)))
           )
-          ((= (length resolution-values) 2)
-            (let* (
-              (new-height (string->number (cadr resolution-values)))
-
-            )
-              (crop-image image-copy new-width new-height image-width image-height)
-              (gimp-image-scale image-copy new-width new-height)
+            (cond
+              ((= (length resolution-values) 1)
+                (let (
+                  (new-height (* (/ new-width image-width) image-height))
+                )
+                  (gimp-image-scale image-copy new-width new-height)
+                )
+              )
+              ((= (length resolution-values) 2)
+                (let* (
+                  (new-height (string->number (cadr resolution-values)))
+                )
+                  (crop-image image-copy new-width new-height image-width image-height)
+                  (gimp-image-scale image-copy new-width new-height)
+                )
+              )
             )
           )
         )
@@ -240,10 +248,13 @@
   )
 )
 
-;; Final path (minus extension) for one resolution's rendered image.
+;; Final path (minus extension) for one resolution's rendered image. A blank
+;; resolution ("keep current size") gets no "_<resolution>" suffix at all.
 (define (export-prefix dest-dir base-token resolution)
   (let (
-    (file-token (string-append base-token "_" resolution))
+    (file-token (if (string=? resolution "")
+                   base-token
+                   (string-append base-token "_" resolution)))
   )
     (if dest-dir
       (path-join dest-dir file-token)
@@ -451,9 +462,11 @@
   (> (string-length s) 0)
 )
 
+;; An empty token means "keep this image's current resolution" -- see
+;; process-image, which skips scaling/cropping entirely for it.
 (define (valid-resolution? token)
-  (and
-    (string-nonempty? token)
+  (or
+    (string=? token "")
     (let (
       (parts (strbreakup token "x"))
     )
@@ -470,17 +483,25 @@
 
 ;; Splits on "," and trims/validates each token, so stray whitespace or a
 ;; malformed entry (e.g. "1920,,junk, 800x600") degrades gracefully instead
-;; of crashing later on (string->number "").
+;; of crashing later on (string->number ""). A field that's blank (or only
+;; whitespace) becomes a single empty token, i.e. "export at current size".
 (define (parse-resolutions resolutions)
-  (let loop ((tokens (strbreakup resolutions ",")) (result '()))
-    (if (null? tokens)
-      (reverse result)
-      (let (
-        (trimmed (string-trim (car tokens)))
-      )
-        (if (valid-resolution? trimmed)
-          (loop (cdr tokens) (cons trimmed result))
-          (loop (cdr tokens) result)
+  (let (
+    (trimmed-whole (string-trim resolutions))
+  )
+    (if (string=? trimmed-whole "")
+      (list "")
+      (let loop ((tokens (strbreakup resolutions ",")) (result '()))
+        (if (null? tokens)
+          (reverse result)
+          (let (
+            (trimmed (string-trim (car tokens)))
+          )
+            (if (valid-resolution? trimmed)
+              (loop (cdr tokens) (cons trimmed result))
+              (loop (cdr tokens) result)
+            )
+          )
         )
       )
     )
